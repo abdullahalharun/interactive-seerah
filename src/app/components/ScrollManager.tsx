@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 
 /**
@@ -10,9 +10,17 @@ import { useLocation } from "react-router-dom";
 export function ScrollManager() {
   const { pathname, hash } = useLocation();
 
+  // The browser already positions a fresh page load, and the timeline may
+  // want to jump to a `?event=` deep link on mount. Only take over on
+  // in-app navigation.
+  const isInitialRender = useRef(true);
+
   useEffect(() => {
+    const isInitial = isInitialRender.current;
+    isInitialRender.current = false;
+
     if (!hash) {
-      window.scrollTo({ top: 0, behavior: "auto" });
+      if (!isInitial) window.scrollTo({ top: 0, behavior: "auto" });
       return;
     }
 
@@ -25,7 +33,10 @@ export function ScrollManager() {
     const tryScroll = () => {
       const el = document.getElementById(id);
       if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        // Instant, not smooth: the timeline is ~20,000px tall, so animating
+        // to a far event would scroll for several seconds. Ordinary in-page
+        // anchors still animate via `scroll-behavior` in theme.css.
+        el.scrollIntoView({ behavior: "instant", block: "start" });
         return;
       }
       if (frames++ < 30) raf = requestAnimationFrame(tryScroll);

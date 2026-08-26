@@ -1,6 +1,6 @@
-import { motion } from "motion/react";
-import { Calendar, MapPin, ChevronRight, X } from "lucide-react";
-import { useState } from "react";
+import { motion, useReducedMotion } from "motion/react";
+import { Calendar, Check, Link2, MapPin, ChevronRight, X } from "lucide-react";
+import { useEffect, useState } from "react";
 import {
   Drawer,
   DrawerClose,
@@ -25,6 +25,8 @@ interface TimelineEventProps {
   period: Period;
   isFirst?: boolean;
   position?: "left" | "right";
+  isOpen: boolean;
+  onOpenChange: (open: boolean) => void;
 }
 
 export function TimelineEvent({
@@ -39,10 +41,12 @@ export function TimelineEvent({
   period,
   isFirst = false,
   position = "left",
+  isOpen,
+  onOpenChange,
 }: TimelineEventProps) {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const { language } = useLanguage();
   const t = translations[language].timeline;
+  const reduceMotion = useReducedMotion();
 
   const card = (
     <EventCard
@@ -53,7 +57,7 @@ export function TimelineEvent({
       location={location}
       description={description}
       period={period}
-      onSeeMore={() => setIsDrawerOpen(true)}
+      onSeeMore={() => onOpenChange(true)}
     />
   );
 
@@ -61,9 +65,12 @@ export function TimelineEvent({
     <>
       <motion.div
         id={id}
-        initial={{ opacity: 0, y: 24 }}
+        initial={reduceMotion ? false : { opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
+        // Triggers a little before the card reaches the viewport, from
+        // either direction, so nothing is left invisible after a fast
+        // scroll or a jump from a deep link.
+        viewport={{ once: true, amount: 0, margin: "160px 0px 160px 0px" }}
         transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
         className="relative scroll-mt-28 pb-14 md:pb-20"
       >
@@ -109,11 +116,7 @@ export function TimelineEvent({
         </div>
       </motion.div>
 
-      <Drawer
-        open={isDrawerOpen}
-        onOpenChange={setIsDrawerOpen}
-        direction="right"
-      >
+      <Drawer open={isOpen} onOpenChange={onOpenChange} direction="right">
         <DrawerContent className="h-full w-full border-l border-rule bg-surface md:w-[540px] md:max-w-[92vw]">
           <DrawerHeader className="border-b border-rule text-left">
             <div className="flex items-start justify-between gap-4">
@@ -149,10 +152,13 @@ export function TimelineEvent({
                 </DrawerDescription>
               </div>
 
-              <DrawerClose className="cursor-pointer rounded-md p-1.5 text-ink-muted transition-colors hover:bg-primary-subtle hover:text-primary">
-                <X className="h-5 w-5" />
-                <span className="sr-only">{t.close}</span>
-              </DrawerClose>
+              <div className="flex items-center gap-1">
+                <CopyLinkButton eventId={id} />
+                <DrawerClose className="cursor-pointer rounded-md p-1.5 text-ink-muted transition-colors hover:bg-primary-subtle hover:text-primary">
+                  <X className="h-5 w-5" />
+                  <span className="sr-only">{t.close}</span>
+                </DrawerClose>
+              </div>
             </div>
           </DrawerHeader>
 
@@ -267,5 +273,46 @@ function EventCard({
         <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
       </button>
     </article>
+  );
+}
+
+/** Copies a deep link that reopens this event's drawer. */
+function CopyLinkButton({ eventId }: { eventId: string }) {
+  const { language } = useLanguage();
+  const t = translations[language].timeline;
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    if (!copied) return;
+    const timer = setTimeout(() => setCopied(false), 1800);
+    return () => clearTimeout(timer);
+  }, [copied]);
+
+  const copy = async () => {
+    const url = `${window.location.origin}/?event=${eventId}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+    } catch {
+      // Clipboard blocked (insecure origin or denied permission) — the URL
+      // in the address bar already carries the event, so this is only a
+      // convenience.
+    }
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={copy}
+      aria-label={copied ? t.linkCopied : t.copyLink}
+      title={copied ? t.linkCopied : t.copyLink}
+      className="cursor-pointer rounded-md p-1.5 text-ink-muted transition-colors hover:bg-primary-subtle hover:text-primary"
+    >
+      {copied ? (
+        <Check className="h-4.5 w-4.5 text-primary" />
+      ) : (
+        <Link2 className="h-4.5 w-4.5" />
+      )}
+    </button>
   );
 }

@@ -31,7 +31,20 @@ export const translations = {
       overview: "Overview",
       keyDetails: "Key Details",
       makkanPeriod: "The Makkan Years",
-      madinanPeriod: "The Madinan Years"
+      madinanPeriod: "The Madinan Years",
+      makkanYears: "570 – 622 CE",
+      madinanYears: "622 – 632 CE",
+      makkanSubtitle: "From the birth of the Prophet ﷺ to the eve of the migration — thirteen years of revelation, patience and persecution.",
+      madinanSubtitle: "From the founding of the first Muslim community to the Farewell Sermon — ten years of statecraft, struggle and consolidation.",
+      hijrahBanner: "The Hijrah",
+      hijrahCaption: "Year 1 of the Islamic calendar",
+      filterAll: "All",
+      eventsLabel: "events",
+      copyLink: "Copy link",
+      linkCopied: "Link copied",
+      jumpTo: "Jump to event",
+      timelineProgress: "Timeline progress",
+      showing: "Showing"
     },
     seerahCharts: {
       heading: "Growth of Islam",
@@ -836,7 +849,20 @@ export const translations = {
       overview: "সংক্ষিপ্ত বিবরণ",
       keyDetails: "গুরুত্বপূর্ণ তথ্য",
       makkanPeriod: "মক্কী যুগ",
-      madinanPeriod: "মাদানী যুগ"
+      madinanPeriod: "মাদানী যুগ",
+      makkanYears: "৫৭০ – ৬২২ খ্রিস্টাব্দ",
+      madinanYears: "৬২২ – ৬৩২ খ্রিস্টাব্দ",
+      makkanSubtitle: "নবী (ﷺ) এর জন্ম থেকে হিজরতের প্রাক্কাল পর্যন্ত — ওহী, ধৈর্য ও নির্যাতনের তেরো বছর।",
+      madinanSubtitle: "প্রথম মুসলিম সমাজ প্রতিষ্ঠা থেকে বিদায় হজের ভাষণ পর্যন্ত — রাষ্ট্রগঠন, সংগ্রাম ও সুসংহতির দশ বছর।",
+      hijrahBanner: "হিজরত",
+      hijrahCaption: "ইসলামী বর্ষপঞ্জির প্রথম বর্ষ",
+      filterAll: "সব",
+      eventsLabel: "ঘটনা",
+      copyLink: "লিঙ্ক কপি করুন",
+      linkCopied: "লিঙ্ক কপি হয়েছে",
+      jumpTo: "ঘটনায় যান",
+      timelineProgress: "সময়রেখার অগ্রগতি",
+      showing: "দেখানো হচ্ছে"
     },
     seerahCharts: {
       heading: "ইসলামের বৃদ্ধি",

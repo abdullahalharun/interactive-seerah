@@ -5,6 +5,7 @@ import { useLanguage } from "@/app/context/LanguageContext";
 import { translations } from "@/app/translations/translations";
 import { LanguageSwitcher } from "@/app/components/LanguageSwitcher";
 import { ThemeToggle } from "@/app/components/ThemeToggle";
+import { ReadingProgress } from "@/app/components/ReadingProgress";
 import { getEvents, type SeerahEvent } from "@/app/data/events";
 
 export function Navbar() {
@@ -128,6 +129,8 @@ export function Navbar() {
           </div>
         </div>
       </div>
+
+      <ReadingProgress />
 
       {/* Mobile sheet */}
       {isMobileMenuOpen && (
