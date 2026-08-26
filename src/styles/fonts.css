@@ -1,0 +1,36 @@
+/*
+ * Typefaces are loaded via <link> in index.html (with preconnect).
+ * This file only maps them onto the app's font roles.
+ *
+ *   display  — Cormorant Garamond, a manuscript serif for headings
+ *   sans     — Inter, for UI and body copy
+ *   arabic   — Amiri, a naskh face for Arabic names and phrases
+ *   bengali  — Noto Serif Bengali, for the Bangla translation
+ */
+
+:root {
+  --font-display-stack: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
+  --font-sans-stack: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    sans-serif;
+  --font-arabic-stack: "Amiri", "Scheherazade New", "Traditional Arabic", serif;
+  --font-bengali-stack: "Noto Serif Bengali", "Hind Siliguri", "Kalpurush",
+    sans-serif;
+}
+
+/* In Bangla the Bengali face leads, with Inter picking up Latin runs. */
+html[lang="bn"] body {
+  font-family: var(--font-bengali-stack), var(--font-sans-stack);
+}
+
+html[lang="bn"] .font-display {
+  font-family: var(--font-bengali-stack), var(--font-sans-stack);
+  font-weight: 700;
+}
+
+/* Arabic runs — names, the ﷺ, Qur'anic phrases. */
+.font-arabic,
+[lang="ar"] {
+  font-family: var(--font-arabic-stack);
+  direction: rtl;
+  unicode-bidi: isolate;
+}

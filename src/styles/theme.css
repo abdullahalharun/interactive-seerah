@@ -1,0 +1,218 @@
+@custom-variant dark (&:is(.dark *));
+
+/* ============================================================
+   Palette
+   Parchment and warm ink, deep emerald, brass accent — chosen to
+   read as an illuminated manuscript rather than a default Tailwind
+   dashboard. Every colour in the app comes from these tokens.
+   ============================================================ */
+
+:root {
+  /* Surfaces */
+  --parchment: #fbf8f3;
+  --parchment-deep: #f4efe5;
+  --surface: #ffffff;
+  --surface-sunken: #f7f3ec;
+
+  /* Ink — warm neutrals, never pure grey */
+  --ink: #1f1b16;
+  --ink-soft: #4a4239;
+  --ink-muted: #6b6053;
+  --ink-faint: #9a8f80;
+  --rule: #e7dfd2;
+  --rule-strong: #d6cab5;
+
+  /* Emerald — the primary voice */
+  --primary: #0c6b52;
+  --primary-strong: #084c3b;
+  --primary-soft: #3e9b7e;
+  --primary-subtle: #eaf4ef;
+
+  /* Brass — dates, ornament, the Madinan years */
+  --accent: #a67c2e;
+  --accent-soft: #c99b49;
+  --accent-subtle: #f8f0df;
+
+  --radius: 0.75rem;
+  --shadow-card: 0 1px 2px rgba(31, 27, 22, 0.04),
+    0 8px 24px -12px rgba(31, 27, 22, 0.14);
+  --shadow-lifted: 0 2px 4px rgba(31, 27, 22, 0.05),
+    0 20px 40px -16px rgba(31, 27, 22, 0.22);
+}
+
+.dark {
+  --parchment: #14120f;
+  --parchment-deep: #100e0c;
+  --surface: #1d1a16;
+  --surface-sunken: #191612;
+
+  --ink: #ede6da;
+  --ink-soft: #c4b9a8;
+  --ink-muted: #9c9081;
+  --ink-faint: #6e6558;
+  --rule: #322c24;
+  --rule-strong: #453d32;
+
+  --primary: #46b08d;
+  --primary-strong: #6bc7a6;
+  --primary-soft: #2f8a6c;
+  --primary-subtle: #17281f;
+
+  --accent: #c9a45c;
+  --accent-soft: #dcbb7a;
+  --accent-subtle: #241d12;
+
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.4),
+    0 8px 24px -12px rgba(0, 0, 0, 0.6);
+  --shadow-lifted: 0 2px 4px rgba(0, 0, 0, 0.45),
+    0 20px 40px -16px rgba(0, 0, 0, 0.7);
+}
+
+@theme inline {
+  --color-parchment: var(--parchment);
+  --color-parchment-deep: var(--parchment-deep);
+  --color-surface: var(--surface);
+  --color-surface-sunken: var(--surface-sunken);
+
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+  --color-rule: var(--rule);
+  --color-rule-strong: var(--rule-strong);
+
+  --color-primary: var(--primary);
+  --color-primary-strong: var(--primary-strong);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-subtle: var(--primary-subtle);
+
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-subtle: var(--accent-subtle);
+
+  --font-display: var(--font-display-stack);
+  --font-sans: var(--font-sans-stack);
+  --font-arabic: var(--font-arabic-stack);
+  --font-bengali: var(--font-bengali-stack);
+
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 0.25rem);
+  --radius-2xl: calc(var(--radius) + 0.5rem);
+
+  --shadow-card: var(--shadow-card);
+  --shadow-lifted: var(--shadow-lifted);
+}
+
+@layer base {
+  * {
+    border-color: var(--rule);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* Clears the fixed navbar on every anchor jump. */
+    scroll-padding-top: 6rem;
+  }
+
+  body {
+    background-color: var(--parchment);
+    color: var(--ink);
+    font-family: var(--font-sans-stack);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display-stack);
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+  }
+
+  ::selection {
+    background: var(--primary);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+@layer utilities {
+  /* An eight-point star tile — the geometry underpinning most
+     Islamic surface pattern. Kept faint enough to read as texture. */
+  .pattern-girih {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg fill='none' stroke='%230c6b52' stroke-width='1'%3E%3Cpath d='M30 2 L44 16 L58 30 L44 44 L30 58 L16 44 L2 30 L16 16 Z'/%3E%3Cpath d='M30 2 L30 58 M2 30 L58 30 M10 10 L50 50 M50 10 L10 50'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 60px 60px;
+    opacity: 0.035;
+  }
+
+  .dark .pattern-girih {
+    opacity: 0.05;
+  }
+
+  /* A centred rule carrying a small brass lozenge — used under
+     section headings in place of a plain horizontal rule. */
+  .divider-ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    height: 1rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 11 11'%3E%3Cpath d='M5.5 0 L11 5.5 L5.5 11 L0 5.5 Z' fill='%23a67c2e'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .dark .divider-ornament {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 11 11'%3E%3Cpath d='M5.5 0 L11 5.5 L5.5 11 L0 5.5 Z' fill='%23c9a45c'/%3E%3C/svg%3E");
+  }
+
+  .divider-ornament::before,
+  .divider-ornament::after {
+    content: "";
+    height: 1px;
+    width: clamp(2rem, 12vw, 5rem);
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--rule-strong),
+      transparent
+    );
+  }
+
+  .card-manuscript {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: calc(var(--radius) + 0.25rem);
+    box-shadow: var(--shadow-card);
+    transition:
+      box-shadow 0.35s ease,
+      transform 0.35s ease,
+      border-color 0.35s ease;
+  }
+
+  .card-manuscript:hover {
+    box-shadow: var(--shadow-lifted);
+    border-color: var(--rule-strong);
+    transform: translateY(-2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
