@@ -1,3 +1,10 @@
+packages:
+  - '.'
+
 allowBuilds:
   '@tailwindcss/oxide': true
   esbuild: false
+
+# Older pnpm (e.g. 10.11 on Cloudflare Pages) doesn't know allowBuilds
+onlyBuiltDependencies:
+  - '@tailwindcss/oxide'
